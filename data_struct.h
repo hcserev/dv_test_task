@@ -110,7 +110,6 @@ namespace DaVinci
 
         // return unordered_map (key = symbol, value = total count)
         std::unordered_map<std::string, unsigned int> OrderCounts();
-        //std::unordered_map<std::pair<std::string, std::string>, unsigned int> DataStruct::OrderCounts2();
 
         // return std::vector of data nodes with maximum size == 3
         std::vector<DataNode> BiggestBuyOrders(std::string symbol = "DVAM1");

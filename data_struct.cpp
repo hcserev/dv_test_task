@@ -60,16 +60,6 @@ std::unordered_map<std::string, unsigned int> DaVinci::DataStruct::OrderCounts()
     return counter;
 };
 
-//std::unordered_map<std::pair<std::string, std::string>, unsigned int> DaVinci::DataStruct::OrderCounts2()
-//{
-//    std::unordered_map<std::pair<std::string, std::string>, unsigned int> counter;
-//    for (const auto& it : data)
-//    {
-//        std::pair<std::string, std::string> p (it.getSymbol(), it.getOrderId());
-//        counter[p]++;
-//    }
-//    return counter;
-//};
 std::vector<DaVinci::DataNode> DaVinci::DataStruct::BiggestBuyOrders(std::string symbol)
 {
     const int biggestOrdersNum = 3;
