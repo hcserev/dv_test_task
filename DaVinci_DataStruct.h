@@ -11,6 +11,7 @@
 
 namespace DaVinci
 {
+    // This class stores the data of one line of the file
     struct DataNode
     {
     private:
@@ -98,6 +99,7 @@ namespace DaVinci
 
     class DataStruct
     {
+    // This class stores the data of the input file
     public:
         DataStruct(std::string fileName = "");
         DataStruct(const DataStruct& copy) = delete;
