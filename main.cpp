@@ -1,17 +1,14 @@
-#include "DaVinci_DataStruct.h"
+#include "data_struct.h"
 
 int main()
 {
     std::string filePath;
     std::cout << "enter file path" << std::endl;
     std::getline(std::cin, filePath);
-    DaVinci::DataStruct* data = new DaVinci::DataStruct(filePath);
-    //DaVinci::DataStruct* data = new DaVinci::DataStruct("E:/orders coding test developer.dat");
+    DaVinci::DataStruct data(filePath);
 
     // test cases
-    auto m = data->OrderCounts();
-    auto a = data->BiggestBuyOrders("DVAM2");
-    auto p = data->BestSellAtTime("DVAM1", "15:14:00");
-
-    std::cout << "price = " << p.first << "; volume = " << p.second << std::endl;
+    auto oc = data.OrderCounts();
+    auto bbo = data.BiggestBuyOrders("DVAM2");
+    auto bsat = data.BestSellAtTime("DVAM1", "15:14:00");
 }

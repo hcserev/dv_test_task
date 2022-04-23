@@ -3,8 +3,8 @@ set(CMAKE_CXX_STANDARD 11)
 
 project(da_vinci_test_task C CXX)
 
-set(sources main.cpp DaVinci_DataStruct.cpp)
-set(headers DaVinci_DataStruct.h)
+set(sources main.cpp data_struct.cpp)
+set(headers data_struct.h)
 
 add_executable(da_vinci_test_task
                ${sources}

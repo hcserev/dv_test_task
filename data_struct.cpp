@@ -1,4 +1,4 @@
-#include "DaVinci_DataStruct.h"
+#include "data_struct.h"
 
 DaVinci::DataStruct::DataStruct(std::string fileName)
 {
@@ -28,19 +28,48 @@ DaVinci::DataStruct::DataStruct(std::string fileName)
             fieldNum++;
         }
 
-        data.push_back(std::move(currentLineData));
+        try 
+        {
+            data.push_back(std::move(currentLineData));
+        }
+        catch (...)
+        {
+            std::cout << "Error: Allocate problem for vector";
+            std::terminate();
+        }
         fieldNum = 0;
     }
 };
 
 std::unordered_map<std::string, unsigned int> DaVinci::DataStruct::OrderCounts()
 {
+    std::unordered_set<std::string> setSymbPlusID;
+    for (const auto& it : data)
+    {
+        setSymbPlusID.insert(it.getSymbol() + "*" + it.getOrderId());
+    }
+
     std::unordered_map<std::string, unsigned int> counter;
-    for (auto& it : data)
-        counter[it.getSymbol()]++;
+    for (const auto& it : setSymbPlusID)
+    {
+        int findSeparator = it.find("*");
+        if (findSeparator != std::string::npos)
+            counter[it.substr(0, findSeparator)]++;
+    }
+
     return counter;
 };
 
+//std::unordered_map<std::pair<std::string, std::string>, unsigned int> DaVinci::DataStruct::OrderCounts2()
+//{
+//    std::unordered_map<std::pair<std::string, std::string>, unsigned int> counter;
+//    for (const auto& it : data)
+//    {
+//        std::pair<std::string, std::string> p (it.getSymbol(), it.getOrderId());
+//        counter[p]++;
+//    }
+//    return counter;
+//};
 std::vector<DaVinci::DataNode> DaVinci::DataStruct::BiggestBuyOrders(std::string symbol)
 {
     const int biggestOrdersNum = 3;
@@ -51,13 +80,38 @@ std::vector<DaVinci::DataNode> DaVinci::DataStruct::BiggestBuyOrders(std::string
 
     for (const auto& it : data)
     {
-        if (it.getSymbol() == symbol && it.getSide() == "BUY")
+        if (it.getSymbol() == symbol && it.getSide() == "BUY" && (it.getOperation() == 'I' || it.getOperation() == 'A'))
         {
             if (biggestOrders.size() < biggestOrdersNum)
-                biggestOrders.push_back(it);
+            {
+                bool needToAddNewOrder = true;
+                for (size_t i = 0; i < biggestOrders.size(); i++)
+                {
+                    if (biggestOrders[i].getOrderId() == it.getOrderId())
+                    {
+                        if (it.getPrice() * it.getVolume() > biggestOrders[i].getPrice() * biggestOrders[i].getVolume())
+                            biggestOrders[i] = it;
+                        needToAddNewOrder = false;
+                        break;
+                    }
+                }
+                if (needToAddNewOrder)
+                    biggestOrders.push_back(it);
+            }
             else
             {
-                if (biggestOrders.back().getVolume() * biggestOrders.back().getPrice() < it.getVolume() * it.getPrice())
+                bool needToAddNewOrder = true;
+                for (size_t i = 0; i < biggestOrders.size(); i++)
+                {
+                    if (biggestOrders[i].getOrderId() == it.getOrderId())
+                    {
+                        if (it.getPrice() * it.getVolume() > biggestOrders[i].getPrice() * biggestOrders[i].getVolume())
+                            biggestOrders[i] = it;
+                        needToAddNewOrder = false;
+                        break;
+                    }
+                }
+                if (needToAddNewOrder && biggestOrders.back().getVolume() * biggestOrders.back().getPrice() < it.getVolume() * it.getPrice())
                     biggestOrders.back() = it;
             }
 
