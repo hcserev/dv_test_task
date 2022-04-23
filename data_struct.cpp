@@ -124,7 +124,7 @@ std::pair<double, double> DaVinci::DataStruct::BestSellAtTime(std::string symbol
 
     std::pair<double, unsigned int> res = {-1.0, 0};
 
-    int index = BinarySearchFirstStamp(timestamp);
+    int index = BinarySearchFirstTimeStampIndex(timestamp);
     while (index < data.size() && data[index].getTime().substr(0, timestamp.size()) == timestamp)
     {
         if (data[index].getSide() == "SELL" && data[index].getPrice() > res.first)
@@ -167,7 +167,7 @@ bool DaVinci::DataStruct::CheckTimeStamp(std::string timestamp)
     return true;
 };
 
-int DaVinci::DataStruct::BinarySearchFirstStamp(std::string timestamp)
+int DaVinci::DataStruct::BinarySearchFirstTimeStampIndex(std::string timestamp)
 {
     size_t timestampSize = timestamp.size();
     int start = 0;

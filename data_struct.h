@@ -123,7 +123,7 @@ namespace DaVinci
         bool CheckTimeStamp(std::string timestamp);
 
         // binary search (O(logN)) by timestamp is possible because in the input file all lines ordered by time
-        int BinarySearchFirstStamp(std::string timestamp);
+        int BinarySearchFirstTimeStampIndex(std::string timestamp);
 
         std::vector<DataNode> data;
     };
