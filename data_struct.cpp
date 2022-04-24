@@ -1,3 +1,6 @@
+#include <fstream>      // std::ifstream
+#include <sstream>      // std::stringstream
+
 #include "data_struct.h"
 
 DaVinci::DataStruct::DataStruct(std::string fileName)

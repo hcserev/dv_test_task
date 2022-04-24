@@ -1,14 +1,12 @@
 #ifndef  DAVINCI_DATASTRUCT_H
 #define  DAVINCI_DATASTRUCT_H
 
+#include <algorithm>    // std::sort
 #include <iostream>     // std::cout
 #include <string>
-#include <vector>
 #include <unordered_map>
 #include <unordered_set>
-#include <algorithm>
-#include <fstream>      // std::ifstream
-#include <sstream>
+#include <vector>
 
 namespace DaVinci
 {
