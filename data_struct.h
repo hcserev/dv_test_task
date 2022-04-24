@@ -125,7 +125,13 @@ namespace DaVinci
         // binary search (O(logN)) by timestamp is possible because in the input file all lines ordered by time
         int BinarySearchFirstTimeStampIndex(std::string timestamp);
 
+        // calculate orderCounts
+        void CalculateOrderCounts();
+
+        // stored data from file
         std::vector<DataNode> data;
+
+        std::unordered_map<std::string, unsigned int> orderCounts;
     };
 }
 

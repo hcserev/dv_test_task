@@ -6,7 +6,12 @@ DaVinci::DataStruct::DataStruct(std::string fileName)
     std::string token;
     std::ifstream file(fileName);
 
-    std::string prevTime = "";
+    if (!file)
+    {
+        std::cout << "Can't read the file: " << fileName;
+        return;
+    }
+
     int fieldNum = 0;
     while (getline(file, line, '\n'))
     {
@@ -39,25 +44,30 @@ DaVinci::DataStruct::DataStruct(std::string fileName)
         }
         fieldNum = 0;
     }
+
+    // order counts may be calculated only one time after read file;
+    CalculateOrderCounts();
 };
 
-std::unordered_map<std::string, unsigned int> DaVinci::DataStruct::OrderCounts()
+void DaVinci::DataStruct::CalculateOrderCounts()
 {
     std::unordered_set<std::string> setSymbPlusID;
     for (const auto& it : data)
     {
-        setSymbPlusID.insert(it.getSymbol() + "*" + it.getOrderId());
+        setSymbPlusID.insert(it.getSymbol() + ";" + it.getOrderId());
     }
 
-    std::unordered_map<std::string, unsigned int> counter;
     for (const auto& it : setSymbPlusID)
     {
-        int findSeparator = it.find("*");
+        int findSeparator = it.find(";");
         if (findSeparator != std::string::npos)
-            counter[it.substr(0, findSeparator)]++;
+            orderCounts[it.substr(0, findSeparator)]++;
     }
+};
 
-    return counter;
+std::unordered_map<std::string, unsigned int> DaVinci::DataStruct::OrderCounts()
+{
+    return orderCounts;
 };
 
 std::vector<DaVinci::DataNode> DaVinci::DataStruct::BiggestBuyOrders(std::string symbol)
@@ -116,13 +126,14 @@ std::vector<DaVinci::DataNode> DaVinci::DataStruct::BiggestBuyOrders(std::string
 
 std::pair<double, double> DaVinci::DataStruct::BestSellAtTime(std::string symbol, std::string timestamp)
 {
+    std::pair<double, unsigned int> res = {-1.0, 0};
+
     if (!CheckTimeStamp(timestamp))
     {
-        std::cout << "Error: Timestamp is incorrect";
-        std::terminate();
+        std::cout << "Error: Timestamp " << timestamp << " is incorrect" << std::endl;
+        return res;
     }
-
-    std::pair<double, unsigned int> res = {-1.0, 0};
+  
 
     int index = BinarySearchFirstTimeStampIndex(timestamp);
     while (index < data.size() && data[index].getTime().substr(0, timestamp.size()) == timestamp)
@@ -164,6 +175,9 @@ bool DaVinci::DataStruct::CheckTimeStamp(std::string timestamp)
         else
             return false;
     }
+    else
+        return false;
+
     return true;
 };
 

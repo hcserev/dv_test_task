@@ -7,8 +7,9 @@ int main()
     std::getline(std::cin, filePath);
     DaVinci::DataStruct data(filePath);
 
-    // test cases
-    auto oc = data.OrderCounts();
-    auto bbo = data.BiggestBuyOrders("DVAM2");
-    auto bsat = data.BestSellAtTime("DVAM1", "15:14:00");
+    // examples
+    //auto oc = data.OrderCounts();
+    //auto bbo = data.BiggestBuyOrders("DVAM1");
+    //auto bsat = data.BestSellAtTime("DVAM1", "12:00:01");
+
 }
