@@ -59,7 +59,7 @@ void DaVinci::DataStruct::CalculateOrderCounts()
 
     for (const auto& it : setSymbPlusID)
     {
-        int findSeparator = it.find(";");
+        size_t findSeparator = it.find(";");
         if (findSeparator != std::string::npos)
             orderCounts[it.substr(0, findSeparator)]++;
     }
@@ -115,7 +115,7 @@ std::vector<DaVinci::DataNode> DaVinci::DataStruct::BiggestBuyOrders(std::string
                     biggestOrders.back() = it;
             }
 
-            // as biggestOrdersNum is fixed, this sort has O(1)-time complexity
+            // as biggestOrdersNum is constant, this sort has O(1)-time complexity
             std::sort(biggestOrders.begin(), biggestOrders.end(), [](auto first, auto second) {
                 return first.getVolume() * first.getPrice() > second.getVolume() * second.getPrice(); });
         }
